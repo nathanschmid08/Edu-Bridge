@@ -1,71 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edu Bridge</title>
-    <style>
-        #subject-selection {
-            margin-top: 20px;
-        }
-
-        .button-container {
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edu Bridge</title>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-hover: #3a56d4;
+      --primary-light: #eef1ff;
+      --text-dark: #1a202c;
+      --text-medium: #4a5568;
+      --text-light: #718096;
+      --border-color: #e2e8f0;
+      --background: #f8fafc;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --error: #e53e3e;
+      --success: #38a169;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+    
+    body {
+      background-color: var(--background);
+      background-image: linear-gradient(135deg, #f8fafc 0%, #eef1ff 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      color: var(--text-dark);
+    }
+    
+    .container {
+      background-color: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-out;
+      padding: 40px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .brand-icon {
+      width: 54px;
+      height: 54px;
+      background-color: var(--primary-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .brand-icon svg {
+      width: 30px;
+      height: 30px;
+      fill: var(--primary-color);
+    }
+    
+    .title-container {
+      flex: 1;
+    }
+    
+    h1 {
+      color: var(--text-dark);
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      letter-spacing: -0.5px;
+    }
+    
+    h2 {
+      color: var(--text-medium);
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+    }
+    
+    h3 {
+      color: var(--text-medium);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .role-selection {
+      margin-bottom: 30px;
+      display: flex;
+      gap: 15px;
+    }
+    
+    .role-option {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      background-color: var(--white);
+    }
+    
+    .role-option:hover {
+      border-color: var(--primary-color);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-2px);
+    }
+    
+    .role-option.selected {
+      border-color: var(--primary-color);
+      background-color: var(--primary-light);
+    }
+    
+    .role-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .role-option-title {
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .role-option-title svg {
+      margin-right: 8px;
+      width: 20px;
+      height: 20px;
+      fill: var(--primary-color);
+    }
+    
+    .role-option-desc {
+      color: var(--text-light);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    #subject-selection {
+      margin-top: 30px;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .subject-option {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .subject-option:hover {
+      border-color: var(--primary-color);
+      background-color: var(--primary-light);
+    }
+    
+    .subject-option input[type="checkbox"] {
+      margin-right: 10px;
+      accent-color: var(--primary-color);
+      width: 18px;
+      height: 18px;
+    }
+    
+    .note {
+      color: var(--text-light);
+      font-size: 14px;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    
+    .button-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    button:active {
+      transform: translateY(-1px);
+    }
+    
+    button::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+      background-repeat: no-repeat;
+      background-position: 50%;
+      transform: scale(10, 10);
+      opacity: 0;
+      transition: transform 0.5s, opacity 1s;
+    }
+    
+    button:active::after {
+      transform: scale(0, 0);
+      opacity: 0.3;
+      transition: 0s;
+    }
+    
+    @keyframes ripple {
+      to {
+        transform: scale(50);
+        opacity: 0;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px;
+      }
+      
+      .role-selection {
+        flex-direction: column;
+      }
+      
+      .subjects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+      
+      .container {
+        padding: 25px;
+        border-radius: 14px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      h2 {
+        font-size: 16px;
+      }
+      
+      .header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .brand-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+      
+      .subjects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Welcome to Edu Bridge</h1>
-    <h2>Let's look at some options</h2>
-
-    <label>
+  <div class="container">
+    <div class="header">
+      <div class="brand-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"/>
+        </svg>
+      </div>
+      <div class="title-container">
+        <h1>Welcome to Edu Bridge</h1>
+        <h2>Let's look at some options</h2>
+      </div>
+    </div>
+    
+    <div class="role-selection">
+      <label class="role-option" id="student-option">
         <input type="radio" name="role" value="student" onclick="showSubjects('student')">
-        Continue as a Student
-    </label><br>
-    <label>
+        <div class="role-option-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 16.5L5 13.18Z"/>
+          </svg>
+          Continue as a Student
+        </div>
+        <div class="role-option-desc">Learn from expert tutors and explore various subjects</div>
+      </label>
+      
+      <label class="role-option" id="tutor-option">
         <input type="radio" name="role" value="tutor" onclick="showSubjects('tutor')">
-        Continue as a Tutor
-    </label>
-
+        <div class="role-option-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M20 17H22V15H20V17M20 7V13H22V7H20M10 7H18V5H10V7M10 15V17H18V15H10M10 11H18V9H10V11M6 7H8V18H6V7M4 3H20C21.11 3 22 3.89 22 5V19C22 20.11 21.11 21 20 21H4C2.89 21 2 20.11 2 19V5C2 3.89 2.89 3 4 3M4 5V19H20V5H4Z"/>
+          </svg>
+          Continue as a Tutor
+        </div>
+        <div class="role-option-desc">Share your knowledge and help students excel</div>
+      </label>
+    </div>
+    
     <div id="subject-selection"></div>
+    
     <div id="button-container" class="button-container"></div>
-
-    <script>
-        function showSubjects(role) {
-            const selectionDiv = document.getElementById('subject-selection');
-            const buttonContainer = document.getElementById('button-container');
-            selectionDiv.innerHTML = ''; // Reset Inhalt
-            buttonContainer.innerHTML = ''; // Reset Button
-
-            let subjects = [];
-            let noteText = '';
-
-            if (role === 'student') {
-                subjects = ['English', 'Math', 'Science', 'History', 'Geography', 'Economics and Home Studies', 'Civics / Ethics', 'Arts and Music', 'Computer Science'];
-                selectionDiv.innerHTML = '<h3>Select subjects you are interested in:</h3>';
-                noteText = '<p class="note">You can change your selected subjects later in your profile.</p>';
-                buttonContainer.innerHTML = '<button onclick="alert(\'Begin Learning!\')">Begin to Learn</button>';
-            } else if (role === 'tutor') {
-                subjects = ['English', 'Math', 'Physics', 'Chemistry', 'Biology', 'History', 'Geography', 'Economic', 'Civics / Ethics', 'Art', 'Music', 'Programming'];
-                selectionDiv.innerHTML = '<h3>Select subjects you want to teach:</h3>';
-                noteText = '<p class="note">You can change your selected teaching subjects later in your profile.</p>';
-                buttonContainer.innerHTML = '<button onclick="alert(\'Begin Teaching!\')">Begin Teaching</button>';
-            }
-
-            subjects.forEach(subject => {
-                const label = document.createElement('label');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.name = 'subjects';
-                checkbox.value = subject;
-                label.appendChild(checkbox);
-                label.append(' ' + subject);
-                selectionDiv.appendChild(label);
-                selectionDiv.appendChild(document.createElement('br'));
-            });
-
-            selectionDiv.innerHTML += noteText; // Display the note text
-        }
-    </script>
+  </div>
+  
+  <script>
+    function showSubjects(role) {
+      const selectionDiv = document.getElementById('subject-selection');
+      const buttonContainer = document.getElementById('button-container');
+      const studentOption = document.getElementById('student-option');
+      const tutorOption = document.getElementById('tutor-option');
+      
+      // Reset and update selected states
+      selectionDiv.innerHTML = '';
+      buttonContainer.innerHTML = '';
+      studentOption.className = 'role-option';
+      tutorOption.className = 'role-option';
+      
+      if (role === 'student') {
+        studentOption.className = 'role-option selected';
+      } else {
+        tutorOption.className = 'role-option selected';
+      }
+      
+      let subjects = [];
+      let noteText = '';
+      let buttonText = '';
+      
+      if (role === 'student') {
+        subjects = ['English', 'Math', 'Science', 'History', 'Geography', 'Economics and Home Studies', 'Civics / Ethics', 'Arts and Music', 'Computer Science'];
+        selectionDiv.innerHTML = '<h3>Select subjects you are interested in:</h3>';
+        noteText = '<p class="note">You can change your selected subjects later in your profile.</p>';
+        buttonText = 'Begin Learning';
+      } else if (role === 'tutor') {
+        subjects = ['English', 'Math', 'Physics', 'Chemistry', 'Biology', 'History', 'Geography', 'Economic', 'Civics / Ethics', 'Art', 'Music', 'Programming'];
+        selectionDiv.innerHTML = '<h3>Select subjects you want to teach:</h3>';
+        noteText = '<p class="note">You can change your selected teaching subjects later in your profile.</p>';
+        buttonText = 'Begin Teaching';
+      }
+      
+      const subjectsGrid = document.createElement('div');
+      subjectsGrid.className = 'subjects-grid';
+      
+      subjects.forEach(subject => {
+        const label = document.createElement('label');
+        label.className = 'subject-option';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'subjects';
+        checkbox.value = subject;
+        
+        label.appendChild(checkbox);
+        label.append(' ' + subject);
+        subjectsGrid.appendChild(label);
+      });
+      
+      selectionDiv.appendChild(subjectsGrid);
+      selectionDiv.innerHTML += noteText;
+      
+      buttonContainer.innerHTML = `<button onclick="proceedWithSelection('${role}')">${buttonText}</button>`;
+    }
+    
+    function proceedWithSelection(role) {
+      const selectedSubjects = Array.from(document.querySelectorAll('input[name="subjects"]:checked'))
+        .map(checkbox => checkbox.value);
+      
+      if (selectedSubjects.length === 0) {
+        alert('Please select at least one subject to continue.');
+        return;
+      }
+      
+      if (role === 'student') {
+        alert('Begin Learning! Selected subjects: ' + selectedSubjects.join(', '));
+      } else {
+        alert('Begin Teaching! Selected subjects: ' + selectedSubjects.join(', '));
+      }
+    }
+  </script>
 </body>
 </html>
