@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edu Bridge</title>
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-hover: #3a56d4;
+      --primary-light: #eef1ff;
+      --text-dark: #1a202c;
+      --text-medium: #4a5568;
+      --text-light: #718096;
+      --border-color: #e2e8f0;
+      --background: #f8fafc;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --error: #e53e3e;
+      --success: #38a169;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+    
+    body {
+      background-color: var(--background);
+      background-image: linear-gradient(135deg, #f8fafc 0%, #eef1ff 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      color: var(--text-dark);
+    }
+    
+    .container {
+      background-color: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 1000px;
+      display: flex;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .branding-panel {
+      background-color: var(--primary-light);
+      width: 40%;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .branding-panel::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, rgba(67, 97, 238, 0.03) 50%, transparent 70%);
+      z-index: 0;
+    }
+    
+    .logo {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 30px;
+    }
+    
+    .brand-icon {
+      width: 64px;
+      height: 64px;
+      background-color: var(--white);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .brand-icon svg {
+      width: 36px;
+      height: 36px;
+      fill: var(--primary-color);
+    }
+    
+    h1 {
+      color: var(--text-dark);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    
+    .slogan {
+      color: var(--text-medium);
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+      margin-bottom: 30px;
+    }
+    
+    .branding-message {
+      position: relative;
+      z-index: 1;
+      color: var(--text-medium);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    
+    .branding-message h3 {
+      color: var(--primary-color);
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    
+    .branding-message p {
+      margin-bottom: 15px;
+    }
+    
+    .form-panel {
+      width: 60%;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .tabs {
+      display: flex;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+    
+    .tab {
+      padding: 12px 30px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-light);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .tab.active {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .tab-indicator {
+      position: absolute;
+      bottom: -1px;
+      height: 2px;
+      width: 80px;
+      background-color: var(--primary-color);
+      transition: transform 0.3s ease;
+    }
+    
+    .tab:first-child.active ~ .tab-indicator {
+      transform: translateX(15px);
+    }
+    
+    .tab:last-child.active ~ .tab-indicator {
+      transform: translateX(125px);
+    }
+    
+    .form-container {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+      width: 100%;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-medium);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 15px;
+      color: var(--text-dark);
+      transition: all 0.2s ease;
+      background-color: var(--white);
+    }
+    
+    input::placeholder {
+      color: var(--text-light);
+      opacity: 0.7;
+    }
+    
+    input:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    }
+    
+    .row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .col-6 {
+      flex: 1 1 calc(50% - 10px);
+      min-width: 200px;
+    }
+    
+    .remember-me {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 14px;
+      color: var(--text-medium);
+    }
+    
+    .remember-me input {
+      margin-right: 10px;
+      accent-color: var(--primary-color);
+      width: 18px;
+      height: 18px;
+    }
+    
+    .forgot-password {
+      text-align: right;
+      margin-top: -16px;
+      margin-bottom: 20px;
+    }
+    
+    .forgot-password a {
+      color: var(--text-medium);
+      font-size: 14px;
+      text-decoration: none;
+    }
+    
+    .forgot-password a:hover {
+      color: var(--primary-color);
+    }
+    
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    button:active {
+      transform: translateY(-1px);
+    }
+    
+    button::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+      background-repeat: no-repeat;
+      background-position: 50%;
+      transform: scale(10, 10);
+      opacity: 0;
+      transition: transform 0.5s, opacity 1s;
+    }
+    
+    button:active::after {
+      transform: scale(0, 0);
+      opacity: 0.3;
+      transition: 0s;
+    }
+    
+    .form-footer {
+      color: var(--text-medium);
+      font-size: 14px;
+      text-align: center;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+    
+    .form-footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .decoration-circle {
+      position: absolute;
+      border-radius: 50%;
+      background-color: rgba(67, 97, 238, 0.07);
+      z-index: 0;
+    }
+    
+    .circle-1 {
+      width: 180px;
+      height: 180px;
+      bottom: -90px;
+      right: -30px;
+    }
+    
+    .circle-2 {
+      width: 60px;
+      height: 60px;
+      top: 40px;
+      right: 30px;
+    }
+    
+    @keyframes ripple {
+      to {
+        transform: scale(50);
+        opacity: 0;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        max-width: 500px;
+      }
+      
+      .branding-panel {
+        width: 100%;
+        padding: 30px;
+      }
+      
+      .form-panel {
+        width: 100%;
+        padding: 30px;
+      }
+      
+      .circle-1 {
+        display: none;
+      }
+      
+      .col-6 {
+        flex: 0 0 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+      
+      .container {
+        border-radius: 14px;
+      }
+      
+      .branding-panel {
+        padding: 25px;
+      }
+      
+      .form-panel {
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 26px;
+      }
+      
+      .slogan {
+        font-size: 16px;
+      }
+      
+      .branding-message {
+        display: none;
+      }
+      
+      .row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .col-6 {
+        min-width: 100%;
+      }
+      
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        padding: 12px 14px;
+      }
+      
+      button {
+        padding: 12px;
+      }
+      
+      .tabs {
+        gap: 10px;
+      }
+      
+      .tab {
+        padding: 10px 20px;
+      }
+      
+      .tab-indicator {
+        width: 70px;
+      }
+      
+      .tab:first-child.active ~ .tab-indicator {
+        transform: translateX(10px);
+      }
+      
+      .tab:last-child.active ~ .tab-indicator {
+        transform: translateX(110px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="branding-panel">
+      <div class="decoration-circle circle-1"></div>
+      <div class="decoration-circle circle-2"></div>
+      
+      <div class="logo">
+        <div class="brand-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"/>
+          </svg>
+        </div>
+        <h1>Edu Bridge</h1>
+        <h3 class="slogan">Education that connects</h3>
+      </div>
+      
+      <div class="branding-message">
+        <h3>Transform Your Learning Journey</h3>
+        <p>Join our platform to connect with educators and students worldwide. Access quality education resources and collaborate on projects.</p>
+        <p>With Edu Bridge, learning becomes a collaborative experience without boundaries.</p>
+      </div>
+    </div>
+    
+    <div class="form-panel">
+      <div class="tabs">
+        <div class="tab active" id="login-tab">Login</div>
+        <div class="tab" id="signup-tab">Create Account</div>
+        <div class="tab-indicator"></div>
+      </div>
+      
+      <div class="form-container">
+        <form id="login-form">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter your username">
+          </div>
+          
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password">
+          </div>
+          
+          <div class="remember-me">
+            <input type="checkbox" id="remember">
+            <label for="remember">Remember me</label>
+          </div>
+          
+          <div class="forgot-password">
+            <a href="#">Forgot password?</a>
+          </div>
+          
+          <button type="submit">Login</button>
+          
+          <p class="form-footer">
+            Don't have an account? <a href="#" id="show-signup">Create one</a>
+          </p>
+        </form>
+        
+        <form id="signup-form" class="hidden">
+          <div class="row">
+            <div class="col-6 form-group">
+              <label for="first-name">First Name</label>
+              <input type="text" id="first-name" placeholder="Enter first name">
+            </div>
+            
+            <div class="col-6 form-group">
+              <label for="last-name">Last Name</label>
+              <input type="text" id="last-name" placeholder="Enter last name">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="new-username">Username</label>
+            <input type="text" id="new-username" placeholder="Choose a username">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+          </div>
+          
+          <div class="row">
+            <div class="col-6 form-group">
+              <label for="new-password">Password</label>
+              <input type="password" id="new-password" placeholder="Choose a password">
+            </div>
+            
+            <div class="col-6 form-group">
+              <label for="confirm-password">Confirm Password</label>
+              <input type="password" id="confirm-password" placeholder="Confirm your password">
+            </div>
+          </div>
+          
+          <button type="submit">Create Account</button>
+          
+          <p class="form-footer">
+            Already have an account? <a href="#" id="show-login">Login</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginTab = document.getElementById('login-tab');
+      const signupTab = document.getElementById('signup-tab');
+      const loginForm = document.getElementById('login-form');
+      const signupForm = document.getElementById('signup-form');
+      const showSignup = document.getElementById('show-signup');
+      const showLogin = document.getElementById('show-login');
+      const tabIndicator = document.querySelector('.tab-indicator');
+      
+      function showSignupForm() {
+        loginForm.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+        loginTab.classList.remove('active');
+        signupTab.classList.add('active');
+        tabIndicator.style.transform = 'translateX(125px)';
+      }
+      
+      function showLoginForm() {
+        signupForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        signupTab.classList.remove('active');
+        loginTab.classList.add('active');
+        tabIndicator.style.transform = 'translateX(15px)';
+      }
+      
+      loginTab.addEventListener('click', showLoginForm);
+      signupTab.addEventListener('click', showSignupForm);
+      showSignup.addEventListener('click', function(e) {
+        e.preventDefault();
+        showSignupForm();
+      });
+      showLogin.addEventListener('click', function(e) {
+        e.preventDefault();
+        showLoginForm();
+      });
+      
+      // Add ripple effect to buttons
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault(); // Prevent form submission for demo
+          
+          const x = e.clientX - e.target.getBoundingClientRect().left;
+          const y = e.clientY - e.target.getBoundingClientRect().top;
+          
+          const ripple = document.createElement('span');
+          ripple.style.position = 'absolute';
+          ripple.style.width = '1px';
+          ripple.style.height = '1px';
+          ripple.style.borderRadius = '50%';
+          ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+          ripple.style.transform = 'scale(0)';
+          ripple.style.left = x + 'px';
+          ripple.style.top = y + 'px';
+          ripple.style.animation = 'ripple 0.6s linear';
+          
+          e.target.appendChild(ripple);
+          
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        });
+      });
+      
+      // Form validation (basic example)
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        if (!username || !password) {
+          alert('Please fill in all fields');
+          return;
+        }
+        
+        console.log('Login form submitted');
+        // Submit form logic would go here
+      });
+      
+      signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const firstName = document.getElementById('first-name').value;
+        const lastName = document.getElementById('last-name').value;
+        const newUsername = document.getElementById('new-username').value;
+        const email = document.getElementById('email').value;
+        const newPassword = document.getElementById('new-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        
+        if (!firstName || !lastName || !newUsername || !email || !newPassword || !confirmPassword) {
+          alert('Please fill in all fields');
+          return;
+        }
+        
+        if (newPassword !== confirmPassword) {
+          alert('Passwords do not match');
+          return;
+        }
+        
+        console.log('Signup form submitted');
+        // Submit form logic would go here
+      });
+    });
+  </script>
+</body>
+</html>

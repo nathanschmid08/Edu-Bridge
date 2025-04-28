@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edu Bridge</title>
+    <style>
+        #subject-selection {
+            margin-top: 20px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Edu Bridge</h1>
+    <h2>Let's look at some options</h2>
+
+    <label>
+        <input type="radio" name="role" value="student" onclick="showSubjects('student')">
+        Continue as a Student
+    </label><br>
+    <label>
+        <input type="radio" name="role" value="tutor" onclick="showSubjects('tutor')">
+        Continue as a Tutor
+    </label>
+
+    <div id="subject-selection"></div>
+    <div id="button-container" class="button-container"></div>
+
+    <script>
+        function showSubjects(role) {
+            const selectionDiv = document.getElementById('subject-selection');
+            const buttonContainer = document.getElementById('button-container');
+            selectionDiv.innerHTML = ''; // Reset Inhalt
+            buttonContainer.innerHTML = ''; // Reset Button
+
+            let subjects = [];
+            let noteText = '';
+
+            if (role === 'student') {
+                subjects = ['English', 'Math', 'Science', 'History', 'Geography', 'Economics and Home Studies', 'Civics / Ethics', 'Arts and Music', 'Computer Science'];
+                selectionDiv.innerHTML = '<h3>Select subjects you are interested in:</h3>';
+                noteText = '<p class="note">You can change your selected subjects later in your profile.</p>';
+                buttonContainer.innerHTML = '<button onclick="alert(\'Begin Learning!\')">Begin to Learn</button>';
+            } else if (role === 'tutor') {
+                subjects = ['English', 'Math', 'Physics', 'Chemistry', 'Biology', 'History', 'Geography', 'Economic', 'Civics / Ethics', 'Art', 'Music', 'Programming'];
+                selectionDiv.innerHTML = '<h3>Select subjects you want to teach:</h3>';
+                noteText = '<p class="note">You can change your selected teaching subjects later in your profile.</p>';
+                buttonContainer.innerHTML = '<button onclick="alert(\'Begin Teaching!\')">Begin Teaching</button>';
+            }
+
+            subjects.forEach(subject => {
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'subjects';
+                checkbox.value = subject;
+                label.appendChild(checkbox);
+                label.append(' ' + subject);
+                selectionDiv.appendChild(label);
+                selectionDiv.appendChild(document.createElement('br'));
+            });
+
+            selectionDiv.innerHTML += noteText; // Display the note text
+        }
+    </script>
+</body>
+</html>
