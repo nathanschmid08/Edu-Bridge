@@ -6,3 +6,7 @@ CREATE TABLE users (
     email VARCHAR(100) UNIQUE,
     password VARCHAR(255)
 );
+
+ALTER TABLE users
+ADD COLUMN tutor BOOLEAN NOT NULL,
+ADD COLUMN student BOOLEAN NOT NULL;

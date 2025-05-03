@@ -1,2 +1,2 @@
-INSERT INTO users (first_name, last_name, username, email, password)
-VALUES ('Max', 'Mustermann', 'max123', 'max@example.com', 'password123');
+INSERT INTO users (first_name, last_name, username, email, password, tutor, student)
+VALUES ('Max', 'Mustermann', 'maxmuster', 'max@example.com', 'geheimespasswort', false, true);
