@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edu Bridge Navigation</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --primary-light: #eef1ff;
+            --text-dark: #1a202c;
+            --text-medium: #4a5568;
+            --text-light: #718096;
+            --border-color: #e2e8f0;
+            --background: #f8fafc;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            background-image: linear-gradient(135deg, #f8fafc 0%, #eef1ff 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidenav {
+            height: 100vh;
+            width: 260px;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            left: 0;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            overflow-x: hidden;
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            margin-bottom: 36px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .brand-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary-color);
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-section {
+            margin-bottom: 20px;
+        }
+
+        .nav-heading {
+            padding: 0 24px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .sidenav a {
+            padding: 12px 24px;
+            text-decoration: none;
+            font-size: 15px;
+            color: var(--text-medium);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .sidenav a:hover {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .sidenav a.active {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .sidenav a.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .nav-icon {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 16px 0;
+        }
+
+        .user-section {
+            margin-top: auto;
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        .nav-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 20;
+            background-color: var(--white);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        @media screen and (max-width: 768px) {
+            .sidenav {
+                transform: translateX(-100%);
+                width: 240px;
+            }
+
+            .sidenav.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidenav" id="mySidenav">
+        <div class="brand">
+            <div class="brand-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z" />
+                </svg>
+            </div>
+            <div class="brand-name">Edu Bridge</div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-heading">Navigation</div>
+            <a href="#" class="active">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"></path>
+                </svg>
+                Trending
+            </a>
+            <a href="#">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10,0,0,0,4.65,18.76h0a10,10,0,0,0,14.7,0h0A10,10,0,0,0,12,2Zm0,18a8,8,0,0,1-5.55-2.25,6,6,0,0,1,11.1,0A8,8,0,0,1,12,20ZM10,10a2,2,0,1,1,2,2A2,2,0,0,1,10,10Zm8.91,6A8,8,0,0,0,15,12.62a4,4,0,1,0-6,0A8,8,0,0,0,5.09,16,7.92,7.92,0,0,1,4,12a8,8,0,0,1,16,0A7.92,7.92,0,0,1,18.91,16Z"></path>
+                </svg>
+                Learning Groups
+            </a>
+            <a href="#">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21.71,11.29l-9-9a1,1,0,0,0-1.42,0l-9,9a1,1,0,0,0,0,1.42l9,9a1,1,0,0,0,1.42,0l9-9A1,1,0,0,0,21.71,11.29ZM14,14.5a.5.5,0,0,1-.5.5h-3a.5.5,0,0,1-.5-.5v-3a.5.5,0,0,1,.5-.5h3a.5.5,0,0,1,.5.5Z"></path>
+                </svg>
+                Explore
+            </a>
+            <a href="#">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,3A3,3,0,1,1,9,8,3,3,0,0,1,12,5Zm0,14a7,7,0,0,1-5.83-3.11C6.64,14,8.6,13,12,13s5.36,1,5.83,2.89A7,7,0,0,1,12,19Z"></path>
+                </svg>
+                Profile
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-heading">Resources</div>
+            <a href="#">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15,4V8H5V4H15m1-2H4A1,1,0,0,0,3,3V9a1,1,0,0,0,1,1H16a1,1,0,0,0,1-1V3A1,1,0,0,0,16,2Zm4,4V8H18V6h2m1-2H17a1,1,0,0,0-1,1V9a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V5A1,1,0,0,0,21,4ZM15,14v4H5V14H15m1-2H4a1,1,0,0,0-1,1v6a1,1,0,0,0,1,1H16a1,1,0,0,0,1-1V13A1,1,0,0,0,16,12Zm4,4v2H18V16h2m1-2H17a1,1,0,0,0-1,1v4a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V15A1,1,0,0,0,21,14Z"></path>
+                </svg>
+                Courses
+            </a>
+            <a href="#">
+                <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm-.71,15.29a1,1,0,0,1-1.42,0l-3-3a1,1,0,0,1,1.42-1.42L11,15.59l5.29-5.3a1,1,0,0,1,1.42,1.42Z"></path>
+                </svg>
+                Assignments
+            </a>
+        </div>
+
+        <div class="user-section">
+            <div class="user-avatar">JS</div>
+            <div class="user-info">
+                <div class="user-name">Jane Smith</div>
+                <div class="user-role">Student</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-toggle" id="navToggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </div>
+
+    <div class="main">
+        <!-- Will add an iframe that takes up the left space -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.getElementById('navToggle');
+            const sidenav = document.getElementById('mySidenav');
+
+            navToggle.addEventListener('click', function() {
+                sidenav.classList.toggle('open');
+            });
+
+            // Close sidenav when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const isClickInside = sidenav.contains(event.target) || navToggle.contains(event.target);
+                
+                if (!isClickInside && window.innerWidth <= 768 && sidenav.classList.contains('open')) {
+                    sidenav.classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
