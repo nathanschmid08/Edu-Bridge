@@ -734,16 +734,14 @@
     </div>
 
     <div class="main">
-        <!-- Main content will go here -->
+<!-- äußeres Dokument -->
+        <iframe src="main.html" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navToggle = document.getElementById('navToggle');
             const sidenav = document.getElementById('mySidenav');
-            const circles = document.querySelectorAll('.progress-bar');
-            const notificationItems = document.querySelectorAll('.notification-item');
-            const progressItems = document.querySelectorAll('.progress-item');
             
             // Initialize progress circles with animation
             circles.forEach(circle => {
@@ -764,43 +762,6 @@
                 }, 200);
             });
             
-            // Add interactive hover effects to notification items
-            notificationItems.forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateX(6px)';
-                    this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateX(0)';
-                    this.style.boxShadow = 'none';
-                });
-                
-                item.addEventListener('click', function() {
-                    const dot = this.querySelector('.notification-dot');
-                    if (dot.style.backgroundColor === 'var(--text-light)') {
-                        dot.style.backgroundColor = 'var(--secondary-color)';
-                    } else {
-                        dot.style.backgroundColor = 'var(--text-light)';
-                    }
-                    
-                    // Update notification count
-                    updateNotificationCount();
-                });
-            });
-            
-            // Function to update notification count
-            function updateNotificationCount() {
-                const activeNotifications = document.querySelectorAll('.notification-dot[style*="secondary-color"]').length;
-                const countElement = document.querySelector('.notification-count');
-                countElement.textContent = activeNotifications;
-                
-                if (activeNotifications === 0) {
-                    countElement.style.display = 'none';
-                } else {
-                    countElement.style.display = 'flex';
-                }
-            }
         });
     </script>
 </body>
