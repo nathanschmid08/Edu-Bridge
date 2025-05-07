@@ -177,12 +177,17 @@
         .brand-name {
             font-size: 24px;
             font-weight: 700;
-            color: var(--text-dark);
-            background: linear-gradient(to right, var(--primary-color), #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-dark); /* Fallback-Farbe */
             letter-spacing: -0.5px;
             position: relative;
+
+            /* Gradient Text mit Fallback */
+            background: linear-gradient(to right, var(--primary-color), #818cf8);
+            background-clip: text;
+            -webkit-background-clip: text;
+
+            color: transparent;
+            -webkit-text-fill-color: transparent;
         }
 
         /* Text animation */
@@ -513,28 +518,6 @@
             color: white;
         }
 
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--primary-color);
-        }
-
-        .theme-toggle:hover {
-            transform: rotate(45deg);
-            background-color: var(--primary-light);
-        }
-
         @media screen and (max-width: 768px) {
             .sidenav {
                 transform: translateX(-100%);
@@ -651,9 +634,6 @@
     <div class="animated-bg"></div>
 
     <div class="sidenav" id="mySidenav">
-        <div class="theme-toggle">
-            <i class="fa-solid fa-sun"></i>
-        </div>
 
         <div class="brand">
             <div class="brand-icon">
@@ -761,7 +741,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const navToggle = document.getElementById('navToggle');
             const sidenav = document.getElementById('mySidenav');
-            const themeToggle = document.querySelector('.theme-toggle');
             const circles = document.querySelectorAll('.progress-bar');
             const notificationItems = document.querySelectorAll('.notification-item');
             const progressItems = document.querySelectorAll('.progress-item');
