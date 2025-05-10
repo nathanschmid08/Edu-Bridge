@@ -489,9 +489,27 @@
 
         .main {
             margin-left: 280px;
-            padding: 30px;
+            padding: 0;
             width: calc(100% - 280px);
-            min-height: 100vh;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .main iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            flex: 1;
+            display: block;
+        }
+
+        @media screen and (max-width: 768px) {
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
         }
 
         .nav-toggle {
@@ -734,8 +752,7 @@
     </div>
 
     <div class="main">
-<!-- äußeres Dokument -->
-        <iframe src="main.html" style="width: 100%; height: 100%; border: none;"></iframe>
+        <iframe src="main.html" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <script>
